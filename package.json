@@ -1,0 +1,31 @@
+{
+  "name": "googling-cli",
+  "version": "0.0.1",
+  "bin": {
+    "gg": "dist/src/main.js"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/yeonjuan/googling-cli.git",
+  "author": "yeonjuan <yeonjuan93@naver.com>",
+  "scripts": {
+    "build": "rimraf dist && tsc",
+    "test": "jest",
+    "format": "prettier --write .",
+    "check": "tsc --noEmit",
+    "prepublish": "yarn test && yarn build"
+  },
+  "devDependencies": {
+    "@types/jest": "^28.1.2",
+    "@types/node": "^18.0.0",
+    "@types/yargs": "^17.0.10",
+    "jest": "^28.1.1",
+    "prettier": "^2.7.1",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^28.0.5",
+    "typescript": "^4.7.3"
+  },
+  "dependencies": {
+    "open": "^8.4.0",
+    "yargs": "^17.5.1"
+  }
+}
