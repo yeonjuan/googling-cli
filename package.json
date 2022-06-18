@@ -1,6 +1,6 @@
 {
   "name": "googling-cli",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "bin": {
     "gg": "dist/src/main.js"
   },
