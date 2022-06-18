@@ -41,7 +41,7 @@ const OPTIONS = {
   },
 } as const;
 
-export async function initCliArgs(args: string[]) {
+export async function parseArgv(args: string[]) {
   const parsed = await yargs(args)
     .usage("Usage: $0 <keywords> [options]")
     .options(OPTIONS)

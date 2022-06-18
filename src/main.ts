@@ -1,19 +1,17 @@
 #!/usr/bin/env node
 import open from "open";
 import { GoogleUrlBuilder } from "./google-url-builder";
-import { initCliArgs } from "./cli-args";
+import { parseArgv } from "./parse-argv";
 
 async function main(argv: string[]) {
-  const args = await initCliArgs(argv);
-
+  const parsed = await parseArgv(argv);
   const url = GoogleUrlBuilder.start()
-    .keywords(args.keywords)
-    .filetype(args.filetype)
-    .site(args.site)
-    .map(args.map)
-    .preset(args.preset)
+    .keywords(parsed.keywords)
+    .filetype(parsed.filetype)
+    .site(parsed.site)
+    .map(parsed.map)
+    .preset(parsed.preset)
     .build();
-
   await open(url);
 }
 

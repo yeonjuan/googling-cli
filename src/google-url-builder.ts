@@ -1,18 +1,18 @@
 type SitePreset = "stack" | "github" | "youtube" | "notion";
 
 export class GoogleUrlBuilder {
-  private static URL = "https://www.google.com/search";
   private _keywords?: string[];
   private _filetype?: string;
   private _site?: string;
   private _map?: boolean;
   private _preset?: SitePreset;
+  private _queries: string[] = [];
 
   public static start() {
     return new GoogleUrlBuilder();
   }
 
-  private static getDomain(preset: SitePreset) {
+  private getDomain(preset: SitePreset) {
     switch (preset) {
       case "stack":
         return "stackoverflow.com";
@@ -52,21 +52,41 @@ export class GoogleUrlBuilder {
     return this;
   }
 
+  pushQuery(...value: string[]): void;
+  pushQuery(value: string, key?: string) {
+    if (Array.isArray(value)) {
+      value.forEach((v) => this.pushQuery(v));
+      return;
+    }
+    let qv = "";
+    if (key !== undefined) {
+      qv = `${key}:`;
+    }
+    qv += value;
+    this._queries.push(qv);
+  }
+
+  get queries() {
+    return this._queries.join("+");
+  }
+
   build() {
-    const queries: string[] = [];
-    this._keywords && queries.push(...this._keywords);
+    const url = "https://www.google.com/search";
+
+    this._keywords && this.pushQuery(...this._keywords);
 
     if (this._preset) {
-      queries.push(`site:${GoogleUrlBuilder.getDomain(this._preset)}`);
-      return `${GoogleUrlBuilder.URL}?q=${queries.join("+")}`;
+      this.pushQuery(this.getDomain(this._preset), "site");
+      return `${url}?q=${this.queries}`;
     }
 
     if (this._map) {
-      return `${GoogleUrlBuilder.URL}?q=map:${queries.join("+")}`;
+      return `${url}?q=map:${this.queries}`;
     }
 
-    this._filetype && queries.push(`filetype:${this._filetype}`);
-    this._site && queries.push(`site:${this._site}`);
-    return `${GoogleUrlBuilder.URL}?q=${queries.join("+")}`;
+    this._filetype && this.pushQuery(this._filetype, "filetype");
+    this._site && this.pushQuery(this._site, "site");
+
+    return `${url}?q=${this.queries}`;
   }
 }
