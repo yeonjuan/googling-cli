@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import open from "open";
 import { GoogleUrlBuilder } from "./google-url-builder";
 import { CliArgs } from "./cli-args";
